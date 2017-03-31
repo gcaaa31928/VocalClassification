@@ -9,27 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@angular/core");
-const router_1 = require("@angular/router");
-let AppComponent = class AppComponent {
-    constructor(router) {
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var AppComponent = (function () {
+    function AppComponent(router) {
         this.router = router;
     }
-    ngAfterViewInit() {
-        skrollr.init();
-    }
-    goToHome() {
-        let link = ['/'];
-        this.router.navigate(link);
-    }
-    goToLatestIssue() {
-    }
-};
+    AppComponent.prototype.ngAfterViewInit = function () {
+    };
+    AppComponent.prototype.goToHome = function () {
+    };
+    AppComponent.prototype.goToLatestIssue = function () {
+    };
+    return AppComponent;
+}());
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        templateUrl: './app/app.html',
-        styleUrls: ['./app/app.style.css']
+        templateUrl: './static/app/app.html',
+        styleUrls: ['./static/app/app.style.css']
     }),
     __metadata("design:paramtypes", [router_1.Router])
 ], AppComponent);

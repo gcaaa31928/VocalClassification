@@ -6,8 +6,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {AppComponent} from "./app.component";
 
 const appRoutes: Routes = [
-    {
-    }
 ];
 
 
@@ -18,6 +16,7 @@ const appRoutes: Routes = [
         HttpModule
     ],
     declarations: [
+        AppComponent
     ],
     providers: [
     ],

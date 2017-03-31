@@ -1,11 +1,10 @@
 import {Component, AfterViewInit} from '@angular/core';
 import {Router} from "@angular/router";
 
-declare var skrollr: any;
 @Component({
     selector: 'my-app',
-    templateUrl: './app/app.html',
-    styleUrls: ['./app/app.style.css']
+    templateUrl: './static/app/app.html',
+    styleUrls: ['./static/app/app.style.css']
 })
 export class AppComponent implements AfterViewInit {
 
@@ -14,12 +13,9 @@ export class AppComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        skrollr.init();
     }
 
     goToHome() {
-        let link = ['/'];
-        this.router.navigate(link);
     }
 
     goToLatestIssue() {
