@@ -19,8 +19,12 @@ var AppComponent = (function () {
     function AppComponent(zone, router) {
         this.zone = zone;
         this.router = router;
+        this.sizeLimit = 10000000; // 10MB
         this.options = new ngx_uploader_1.NgUploaderOptions({
-            url: 'http://api.ngx-uploader.com/upload',
+            url: 'http://localhost:8000/upload_audio',
+            filterExtensions: true,
+            allowedExtensions: ['wav', 'mp3'],
+            fieldName: 'file',
             autoUpload: true,
             calculateSpeed: true
         });
@@ -35,6 +39,12 @@ var AppComponent = (function () {
                 }
             });
         });
+    };
+    AppComponent.prototype.beforeUpload = function (uploadingFile) {
+        if (uploadingFile.size > this.sizeLimit) {
+            uploadingFile.setAbort();
+            toastr.error('File is too large!');
+        }
     };
     AppComponent.prototype.fileOverBase = function (e) {
         this.hasBaseDropZoneOver = e;

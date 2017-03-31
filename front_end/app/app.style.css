@@ -16,11 +16,12 @@
 }
 
 .file-over {
-    border: dotted 3px white;
+    border: dotted 3px red !important;
 }
 
 .audio-file-container{
     height: 100px;
+    border: dotted 3px white;
 }
 
 .audio-file-container .hint {

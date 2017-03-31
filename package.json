@@ -33,9 +33,11 @@
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "howler": "^2.0.3",
+    "jquery": "^3.2.1",
     "ngx-uploader": "^2.2.5",
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.40",
+    "toastr": "^2.1.2",
     "typescript": "^2.2.2",
     "zone.js": "^0.6.26"
   }

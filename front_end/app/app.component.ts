@@ -1,6 +1,8 @@
 import {Component, AfterViewInit, NgZone, Inject} from '@angular/core';
 import {Router} from "@angular/router";
-import {NgUploaderOptions} from 'ngx-uploader';
+import {NgUploaderOptions, UploadedFile} from 'ngx-uploader';
+
+declare var toastr: any;
 
 @Component({
     selector: 'my-app',
@@ -12,10 +14,14 @@ export class AppComponent implements AfterViewInit {
     options: NgUploaderOptions;
     response: any;
     hasBaseDropZoneOver: boolean;
+    sizeLimit: number = 10000000; // 10MB
 
     constructor(@Inject(NgZone) private zone: NgZone, private router: Router) {
         this.options = new NgUploaderOptions({
-            url: 'http://api.ngx-uploader.com/upload',
+            url: 'http://localhost:8000/upload_audio',
+            filterExtensions: true,
+            allowedExtensions: ['wav', 'mp3'],
+            fieldName: 'file',
             autoUpload: true,
             calculateSpeed: true
         });
@@ -30,6 +36,13 @@ export class AppComponent implements AfterViewInit {
                 }
             });
         });
+    }
+
+    beforeUpload(uploadingFile: UploadedFile) {
+        if (uploadingFile.size > this.sizeLimit) {
+            uploadingFile.setAbort();
+            toastr.error('File is too large!')
+        }
     }
 
     fileOverBase(e: boolean) {

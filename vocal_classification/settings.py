@@ -44,7 +44,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -121,8 +120,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 FRONT_END_DIR = os.path.join(BASE_DIR, 'front_end')
 NODE_DIR = os.path.join(BASE_DIR, 'node_modules')
+AUDIO_DIR = os.path.join(BASE_DIR, 'audio_files')
 
 STATICFILES_DIRS = (
     FRONT_END_DIR,
-    NODE_DIR
+    NODE_DIR,
+    AUDIO_DIR
 )

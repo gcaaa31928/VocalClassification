@@ -12,7 +12,8 @@
                    class="hidden"
                    ngFileSelect
                    [options]="options"
-                   (onUpload)="handleUpload($event)">
+                   (onUpload)="handleUpload($event)"
+                   (beforeUpload)="beforeUpload($event)">
             Browse<i class="fa fa-music" aria-hidden="true"></i>
         </label>
     </div>
