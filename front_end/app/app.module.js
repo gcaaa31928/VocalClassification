@@ -11,6 +11,7 @@ var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
 var router_1 = require("@angular/router");
 var app_component_1 = require("./app.component");
+var ngx_uploader_1 = require("ngx-uploader");
 var appRoutes = [];
 var AppModule = (function () {
     function AppModule() {
@@ -22,7 +23,8 @@ AppModule = __decorate([
         imports: [
             platform_browser_1.BrowserModule,
             router_1.RouterModule.forRoot(appRoutes, { useHash: true }),
-            http_1.HttpModule
+            http_1.HttpModule,
+            ngx_uploader_1.NgUploaderModule
         ],
         declarations: [
             app_component_1.AppComponent

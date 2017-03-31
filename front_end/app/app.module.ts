@@ -4,6 +4,8 @@ import {HttpModule} from '@angular/http';
 
 import {RouterModule, Routes} from "@angular/router";
 import {AppComponent} from "./app.component";
+import { NgUploaderModule } from "ngx-uploader";
+
 
 const appRoutes: Routes = [
 ];
@@ -13,7 +15,8 @@ const appRoutes: Routes = [
     imports: [
         BrowserModule,
         RouterModule.forRoot(appRoutes, {useHash: true}),
-        HttpModule
+        HttpModule,
+        NgUploaderModule
     ],
     declarations: [
         AppComponent

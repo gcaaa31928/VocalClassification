@@ -4,5 +4,30 @@
     height:100%;
     top:0px;
     left:0px;
-    background-color: #6f5499;
+    letter-spacing: 2px;
+}
+
+.content {
+    margin-top: 120px;
+}
+
+.title {
+    text-align: center;
+}
+
+.file-over {
+    border: dotted 3px white;
+}
+
+.audio-file-container{
+    height: 100px;
+}
+
+.audio-file-container .hint {
+    padding: 20px;
+}
+
+.audio-file-container .upload-button {
+    cursor: pointer;
+
 }

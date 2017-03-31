@@ -6,8 +6,7 @@
     System.config({
         paths: {
             // paths serve as alias
-            'npm:': 'static/',
-            "*": "*.js"
+            'npm:': 'static/'
         },
         // map tells the System loader where to look for things
         map: {
@@ -23,6 +22,7 @@
             '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
             // other libraries
+            'ngx-uploader': 'npm:ngx-uploader/bundle/ngx-uploader.umd.js',
             'rxjs': 'npm:rxjs'
         },
         // packages tells the System loader how to load when no filename and/or no extension

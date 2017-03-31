@@ -1,0 +1,19 @@
+<h1 class="title">Vocal Classification</h1>
+<div class="container text-center content">
+    <div class="audio-file-container"
+         ngFileDrop
+         [options]="options"
+         (onUpload)="handleUpload($event)"
+         [ngClass]="{'file-over': hasBaseDropZoneOver}"
+         (onFileOver)="fileOverBase($event)">
+        <div class="hint">Put your audio file in here</div>
+        <label class="upload-button">
+            <input type="file"
+                   class="hidden"
+                   ngFileSelect
+                   [options]="options"
+                   (onUpload)="handleUpload($event)">
+            Browse<i class="fa fa-music" aria-hidden="true"></i>
+        </label>
+    </div>
+</div>

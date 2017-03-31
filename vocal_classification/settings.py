@@ -121,6 +121,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 FRONT_END_DIR = os.path.join(BASE_DIR, 'front_end')
 NODE_DIR = os.path.join(BASE_DIR, 'node_modules')
+
 STATICFILES_DIRS = (
     FRONT_END_DIR,
     NODE_DIR

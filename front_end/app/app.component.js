@@ -8,18 +8,38 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var ngx_uploader_1 = require("ngx-uploader");
 var AppComponent = (function () {
-    function AppComponent(router) {
+    function AppComponent(zone, router) {
+        this.zone = zone;
         this.router = router;
+        this.options = new ngx_uploader_1.NgUploaderOptions({
+            url: 'http://api.ngx-uploader.com/upload',
+            autoUpload: true,
+            calculateSpeed: true
+        });
     }
+    AppComponent.prototype.handleUpload = function (data) {
+        var _this = this;
+        setTimeout(function () {
+            _this.zone.run(function () {
+                _this.response = data;
+                if (data && data.response) {
+                    _this.response = JSON.parse(data.response);
+                }
+            });
+        });
+    };
+    AppComponent.prototype.fileOverBase = function (e) {
+        this.hasBaseDropZoneOver = e;
+    };
     AppComponent.prototype.ngAfterViewInit = function () {
-    };
-    AppComponent.prototype.goToHome = function () {
-    };
-    AppComponent.prototype.goToLatestIssue = function () {
     };
     return AppComponent;
 }());
@@ -29,7 +49,8 @@ AppComponent = __decorate([
         templateUrl: './static/app/app.html',
         styleUrls: ['./static/app/app.style.css']
     }),
-    __metadata("design:paramtypes", [router_1.Router])
+    __param(0, core_1.Inject(core_1.NgZone)),
+    __metadata("design:paramtypes", [core_1.NgZone, router_1.Router])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map
