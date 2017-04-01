@@ -1,8 +1,9 @@
-import {Component, AfterViewInit, NgZone, Inject} from '@angular/core';
+import {Component, AfterViewInit, NgZone, Inject, ChangeDetectorRef} from '@angular/core';
 import {Router} from "@angular/router";
 import {NgUploaderOptions, UploadedFile} from 'ngx-uploader';
 
 declare var toastr: any;
+declare var WaveSurfer: any;
 
 @Component({
     selector: 'my-app',
@@ -15,8 +16,9 @@ export class AppComponent implements AfterViewInit {
     response: any;
     hasBaseDropZoneOver: boolean;
     sizeLimit: number = 10000000; // 10MB
+    wavesurfer: any;
 
-    constructor(@Inject(NgZone) private zone: NgZone, private router: Router) {
+    constructor(@Inject(NgZone) private zone: NgZone, private router: Router, private _changeDetectionRef: ChangeDetectorRef) {
         this.options = new NgUploaderOptions({
             url: 'http://localhost:8000/upload_audio',
             filterExtensions: true,
@@ -49,7 +51,18 @@ export class AppComponent implements AfterViewInit {
         this.hasBaseDropZoneOver = e;
     }
 
+    playPauseAudio(event: any) {
+        this.wavesurfer.playPause();
+    }
+
     ngAfterViewInit() {
+        this.wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: 'violet',
+            progressColor: 'white'
+        });
+        this.wavesurfer.load('http://localhost:8000/static/4afcfb24-163a-11e7-a50f-d8cb8a9f78c6');
+        this._changeDetectionRef.detectChanges();
     }
 
 

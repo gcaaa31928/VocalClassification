@@ -16,9 +16,10 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var ngx_uploader_1 = require("ngx-uploader");
 var AppComponent = (function () {
-    function AppComponent(zone, router) {
+    function AppComponent(zone, router, _changeDetectionRef) {
         this.zone = zone;
         this.router = router;
+        this._changeDetectionRef = _changeDetectionRef;
         this.sizeLimit = 10000000; // 10MB
         this.options = new ngx_uploader_1.NgUploaderOptions({
             url: 'http://localhost:8000/upload_audio',
@@ -49,7 +50,17 @@ var AppComponent = (function () {
     AppComponent.prototype.fileOverBase = function (e) {
         this.hasBaseDropZoneOver = e;
     };
+    AppComponent.prototype.playPauseAudio = function (event) {
+        this.wavesurfer.playPause();
+    };
     AppComponent.prototype.ngAfterViewInit = function () {
+        this.wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: 'violet',
+            progressColor: 'white'
+        });
+        this.wavesurfer.load('http://localhost:8000/static/4afcfb24-163a-11e7-a50f-d8cb8a9f78c6');
+        this._changeDetectionRef.detectChanges();
     };
     return AppComponent;
 }());
@@ -60,7 +71,7 @@ AppComponent = __decorate([
         styleUrls: ['./static/app/app.style.css']
     }),
     __param(0, core_1.Inject(core_1.NgZone)),
-    __metadata("design:paramtypes", [core_1.NgZone, router_1.Router])
+    __metadata("design:paramtypes", [core_1.NgZone, router_1.Router, core_1.ChangeDetectorRef])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map
