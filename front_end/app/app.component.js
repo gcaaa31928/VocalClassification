@@ -56,8 +56,9 @@ var AppComponent = (function () {
     AppComponent.prototype.ngAfterViewInit = function () {
         this.wavesurfer = WaveSurfer.create({
             container: '#waveform',
-            waveColor: 'violet',
-            progressColor: 'white'
+            waveColor: 'white',
+            progressColor: 'red',
+            barWidth: 3
         });
         this.wavesurfer.load('http://localhost:8000/static/4afcfb24-163a-11e7-a50f-d8cb8a9f78c6');
         this._changeDetectionRef.detectChanges();
