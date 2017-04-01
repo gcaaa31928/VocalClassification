@@ -30,6 +30,7 @@
     "@angular/platform-browser-dynamic": "^4.0.1",
     "@angular/platform-server": "^4.0.1",
     "@angular/router": "^4.0.1",
+    "c3": "^0.4.11",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "howler": "^2.0.3",

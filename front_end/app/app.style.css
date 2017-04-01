@@ -30,5 +30,8 @@
 
 .audio-file-container .upload-button {
     cursor: pointer;
+}
 
+.wave {
+    padding: 20px;
 }

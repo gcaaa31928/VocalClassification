@@ -5,5 +5,6 @@ from sites import views
 
 urlpatterns = [
     url(r'^upload_audio', views.upload_file),
-    url(r'^$', views.index)
+    url(r'^$', views.index),
+    url(r'^test', views.test)
 ]
