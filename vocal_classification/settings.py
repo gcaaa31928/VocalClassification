@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
     'sites'
 ]
 
@@ -113,6 +114,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+# celery
+CELERY_RESULT_BACKEND = 'django-db'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

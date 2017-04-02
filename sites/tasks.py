@@ -3,8 +3,8 @@ from celery import shared_task
 
 
 @shared_task
-def add(x, y):
-    return x + y
+def predict(audio_name):
+    return 1
 
 
 @shared_task

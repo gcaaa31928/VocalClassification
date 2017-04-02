@@ -1,14 +1,16 @@
 import os
 import uuid
 
+from celery.result import AsyncResult
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
 from django.template import loader
+from django_celery_results.managers import TaskResultManager
 
-from sites.tasks import mul
+from sites.tasks import mul, predict
 from vocal_classification.settings import AUDIO_DIR
 
 
@@ -29,6 +31,16 @@ def upload_file(request):
         return HttpResponse(status=400)
 
 
+def predict_result(request):
+    if request.method != 'GET':
+        return HttpResponse(status=404)
+    task_id = request.GET['task_id']
+    result = AsyncResult(task_id)
+    if result.ready():
+        return JsonResponse(result.result)
+    return HttpResponse(status=204)
+
+
 def test(request):
     res = mul.delay(2, 2)
 
@@ -36,8 +48,10 @@ def test(request):
 def handle_uploaded_file(f):
     name = str(uuid.uuid1())
     response = dict()
-    response['name'] = name
     with open(os.path.join(AUDIO_DIR, name), 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+    response['name'] = name
+    task_result = predict.delay(name)
+    response['task_id'] = task_result.id
     return response
