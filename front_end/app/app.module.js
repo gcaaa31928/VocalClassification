@@ -11,6 +11,7 @@ var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
 var router_1 = require("@angular/router");
 var app_component_1 = require("./app.component");
+var loading_component_1 = require("./components/loading.component");
 var ngx_uploader_1 = require("ngx-uploader");
 var appRoutes = [];
 var AppModule = (function () {
@@ -27,7 +28,8 @@ AppModule = __decorate([
             ngx_uploader_1.NgUploaderModule
         ],
         declarations: [
-            app_component_1.AppComponent
+            app_component_1.AppComponent,
+            loading_component_1.LoadingComponent
         ],
         providers: [],
         bootstrap: [app_component_1.AppComponent]

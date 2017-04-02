@@ -4,11 +4,11 @@ import {HttpModule} from '@angular/http';
 
 import {RouterModule, Routes} from "@angular/router";
 import {AppComponent} from "./app.component";
-import { NgUploaderModule } from "ngx-uploader";
+import {LoadingComponent} from "./components/loading.component";
+import {NgUploaderModule} from "ngx-uploader";
 
 
-const appRoutes: Routes = [
-];
+const appRoutes: Routes = [];
 
 
 @NgModule({
@@ -19,10 +19,10 @@ const appRoutes: Routes = [
         NgUploaderModule
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+        LoadingComponent
     ],
-    providers: [
-    ],
+    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {

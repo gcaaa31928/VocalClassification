@@ -33,5 +33,9 @@
 }
 
 .wave {
-    padding: 20px;
+    margin: 20px;
+}
+
+#waveform{
+    margin-top: 20px;
 }

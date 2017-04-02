@@ -42,7 +42,6 @@ def predict_result(request):
         return HttpResponse(status=400)
     if result.ready():
         result_data['data'] = json.loads(result.result)
-        print(result_data)
         return JsonResponse(result_data)
     return HttpResponse(status=204)
 
