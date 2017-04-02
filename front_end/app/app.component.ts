@@ -16,6 +16,7 @@ declare var c3: any;
 export class AppComponent implements AfterViewInit {
 
     predictUrl: string = 'http://localhost:8000/predict_result';
+    predictResult: any;
     taskId: string = null;
     audioName: string = null;
     options: NgUploaderOptions;
@@ -48,8 +49,8 @@ export class AppComponent implements AfterViewInit {
                 console.log(response);
                 if (response.status == 200) {
                     let data = response.json()['data'];
-                    this.loadWaveSurfer(this.audioName);
-                    console.log(data);
+                    this.predictResult = data;
+                    this.loadWaveSurfer(this.audioName, this.predictResult);
                 } else {
                     setTimeout(() => this.getPredictResult(), 2000);
                 }
@@ -89,20 +90,41 @@ export class AppComponent implements AfterViewInit {
         this.wavesurfer.playPause();
     }
 
-    loadWaveSurfer(audio_name: string) {
-        this.wavesurfer.load(`http://localhost:8000/static/${audio_name}`);
-        this.wavesurfer.on('ready', () => {
-            this.wavesurfer.addRegion({
-                start: 1, // time in seconds
-                end: 2, // time in seconds
-                color: 'hsla(100, 100%, 30%, 0.2)'
-            });
+    getPredictPecent(predict: any) {
+        let sum = predict[0] + predict[1];
+        let non_vocal = predict[0] / sum;
+        let vocal = predict[1] / sum;
+        return [non_vocal, vocal];
+    }
 
-            this.wavesurfer.addRegion({
-                start: 2,
-                end: 3,
-                color: 'hsla(200, 100%, 30%, 0.2)'
-            });
+    loadWaveSurfer(audio_name: string, predictResult: any) {
+        this.wavesurfer.load(`http://localhost:8000/static/${audio_name}`);
+        this.wavesurfer.clearRegions();
+        this.wavesurfer.on('ready', () => {
+            let index = 0;
+            for(let result of predictResult) {
+                let vocal = false;
+                let alpha = 0;
+                let percent = this.getPredictPecent(result);
+                let color;
+                if (percent[0] > percent[1]) {
+                    vocal = false;
+                    alpha = 0.5 * (percent[0] / 1.0);
+                    color = `hsla(0, 50%, 50%, ${alpha})`;
+                }else {
+                    vocal = true;
+                    alpha = 0.5 * (percent[1] / 1.0);
+                    color = `hsla(240, 80%, 50%, ${alpha})`;
+                }
+                this.wavesurfer.addRegion({
+                    start: index, // time in seconds
+                    end: index + 2, // time in seconds
+                    color: color,
+                    drag: false
+                });
+                index += 2;
+            }
+
         });
     }
 

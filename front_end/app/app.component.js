@@ -47,8 +47,8 @@ var AppComponent = (function () {
             console.log(response);
             if (response.status == 200) {
                 var data = response.json()['data'];
-                _this.loadWaveSurfer(_this.audioName);
-                console.log(data);
+                _this.predictResult = data;
+                _this.loadWaveSurfer(_this.audioName, _this.predictResult);
             }
             else {
                 setTimeout(function () { return _this.getPredictResult(); }, 2000);
@@ -84,20 +84,42 @@ var AppComponent = (function () {
     AppComponent.prototype.playPauseAudio = function (event) {
         this.wavesurfer.playPause();
     };
-    AppComponent.prototype.loadWaveSurfer = function (audio_name) {
+    AppComponent.prototype.getPredictPecent = function (predict) {
+        var sum = predict[0] + predict[1];
+        var non_vocal = predict[0] / sum;
+        var vocal = predict[1] / sum;
+        return [non_vocal, vocal];
+    };
+    AppComponent.prototype.loadWaveSurfer = function (audio_name, predictResult) {
         var _this = this;
         this.wavesurfer.load("http://localhost:8000/static/" + audio_name);
+        this.wavesurfer.clearRegions();
         this.wavesurfer.on('ready', function () {
-            _this.wavesurfer.addRegion({
-                start: 1,
-                end: 2,
-                color: 'hsla(100, 100%, 30%, 0.2)'
-            });
-            _this.wavesurfer.addRegion({
-                start: 2,
-                end: 3,
-                color: 'hsla(200, 100%, 30%, 0.2)'
-            });
+            var index = 0;
+            for (var _i = 0, predictResult_1 = predictResult; _i < predictResult_1.length; _i++) {
+                var result = predictResult_1[_i];
+                var vocal = false;
+                var alpha = 0;
+                var percent = _this.getPredictPecent(result);
+                var color = void 0;
+                if (percent[0] > percent[1]) {
+                    vocal = false;
+                    alpha = 0.5 * (percent[0] / 1.0);
+                    color = "hsla(0, 50%, 50%, " + alpha + ")";
+                }
+                else {
+                    vocal = true;
+                    alpha = 0.5 * (percent[1] / 1.0);
+                    color = "hsla(240, 80%, 50%, " + alpha + ")";
+                }
+                _this.wavesurfer.addRegion({
+                    start: index,
+                    end: index + 2,
+                    color: color,
+                    drag: false
+                });
+                index += 2;
+            }
         });
     };
     AppComponent.prototype.ngAfterViewInit = function () {

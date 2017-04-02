@@ -24,7 +24,7 @@ def upload_file(request):
     if request.method == 'POST':
         file = request.FILES['file']
         print(file.size)
-        if file.size >= 6 * (10 ** 6):
+        if file.size >= 6 * (10 ** 8):
             return HttpResponse(status=400)
         if 'audio' in file.content_type:
             response = handle_uploaded_file(request.FILES['file'])
