@@ -15,11 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var ngx_uploader_1 = require("ngx-uploader");
+var http_1 = require("@angular/http");
+require("rxjs/add/operator/toPromise");
 var AppComponent = (function () {
-    function AppComponent(zone, router, _changeDetectionRef) {
+    function AppComponent(zone, router, _changeDetectionRef, http) {
         this.zone = zone;
         this.router = router;
         this._changeDetectionRef = _changeDetectionRef;
+        this.http = http;
+        this.predictUrl = 'http://localhost:8000/predict_result';
+        this.taskId = null;
+        this.audioName = null;
         this.sizeLimit = 10000000; // 10MB
         this.options = new ngx_uploader_1.NgUploaderOptions({
             url: 'http://localhost:8000/upload_audio',
@@ -30,15 +36,40 @@ var AppComponent = (function () {
             calculateSpeed: true
         });
     }
+    AppComponent.prototype.getPredictResult = function () {
+        var _this = this;
+        var params = new http_1.URLSearchParams();
+        params.set('task_id', this.taskId);
+        this.http.get(this.predictUrl, {
+            search: params
+        }).toPromise()
+            .then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                var data = response.json()['data'];
+                _this.loadWaveSurfer(_this.audioName);
+                console.log(data);
+            }
+            else {
+                setTimeout(function () { return _this.getPredictResult(); }, 2000);
+            }
+        })
+            .catch(this.handleError);
+    };
+    AppComponent.prototype.handleError = function (error) {
+        console.error('An error occurred', error);
+        return Promise.reject(error.message || error);
+    };
     AppComponent.prototype.handleUpload = function (data) {
         var _this = this;
-        setTimeout(function () {
-            _this.zone.run(function () {
-                _this.response = data;
-                if (data && data.response) {
-                    _this.response = JSON.parse(data.response);
-                }
-            });
+        this.zone.run(function () {
+            _this.response = data;
+            if (data && data.response) {
+                _this.response = JSON.parse(data.response);
+                _this.audioName = _this.response['name'];
+                _this.taskId = _this.response['task_id'];
+                _this.getPredictResult();
+            }
         });
     };
     AppComponent.prototype.beforeUpload = function (uploadingFile) {
@@ -53,22 +84,28 @@ var AppComponent = (function () {
     AppComponent.prototype.playPauseAudio = function (event) {
         this.wavesurfer.playPause();
     };
+    AppComponent.prototype.loadWaveSurfer = function (audio_name) {
+        var _this = this;
+        this.wavesurfer.load("http://localhost:8000/static/" + audio_name);
+        this.wavesurfer.on('ready', function () {
+            _this.wavesurfer.addRegion({
+                start: 1,
+                end: 2,
+                color: 'hsla(100, 100%, 30%, 0.2)'
+            });
+            _this.wavesurfer.addRegion({
+                start: 2,
+                end: 3,
+                color: 'hsla(200, 100%, 30%, 0.2)'
+            });
+        });
+    };
     AppComponent.prototype.ngAfterViewInit = function () {
         this.wavesurfer = WaveSurfer.create({
             container: '#waveform',
             waveColor: 'white',
             progressColor: 'red',
             barWidth: 3
-        });
-        this.wavesurfer.load('http://localhost:8000/static/4afcfb24-163a-11e7-a50f-d8cb8a9f78c6');
-        var chart = c3.generate({
-            bindto: '#chart',
-            data: {
-                columns: [
-                    ['data1', 30, 200, 100, 400, 150, 250],
-                    ['data2', 50, 20, 10, 40, 15, 25]
-                ]
-            }
         });
         this._changeDetectionRef.detectChanges();
     };
@@ -81,7 +118,10 @@ AppComponent = __decorate([
         styleUrls: ['./static/app/app.style.css']
     }),
     __param(0, core_1.Inject(core_1.NgZone)),
-    __metadata("design:paramtypes", [core_1.NgZone, router_1.Router, core_1.ChangeDetectorRef])
+    __metadata("design:paramtypes", [core_1.NgZone,
+        router_1.Router,
+        core_1.ChangeDetectorRef,
+        http_1.Http])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

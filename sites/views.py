@@ -1,3 +1,4 @@
+import json
 import os
 import uuid
 
@@ -36,8 +37,13 @@ def predict_result(request):
         return HttpResponse(status=404)
     task_id = request.GET['task_id']
     result = AsyncResult(task_id)
+    result_data = dict()
+    if result is None:
+        return HttpResponse(status=400)
     if result.ready():
-        return JsonResponse(result.result)
+        result_data['data'] = json.loads(result.result)
+        print(result_data)
+        return JsonResponse(result_data)
     return HttpResponse(status=204)
 
 
