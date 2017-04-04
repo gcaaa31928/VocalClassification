@@ -17,7 +17,7 @@ export class AppComponent implements AfterViewInit {
 
     predictUrl: string = 'http://localhost/predict_result';
     uploadUrl: string = 'http://localhost/upload_audio';
-    staticUrl: string = 'http://localhost/static';
+    staticUrl: string = 'http://localhost/static/auido_files';
     predictResult: any;
     taskId: string = null;
     showLoading: boolean = false;
