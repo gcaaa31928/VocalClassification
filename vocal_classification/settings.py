@@ -129,4 +129,5 @@ AUDIO_DIR = os.path.join(STATIC_DIR, 'audio_files')
 STATICFILES_DIRS = (
     FRONT_END_DIR,
     NODE_DIR
+    # AUDIO_DIR
 )

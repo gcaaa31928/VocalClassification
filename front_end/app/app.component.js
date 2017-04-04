@@ -23,9 +23,11 @@ var AppComponent = (function () {
         this.router = router;
         this._changeDetectionRef = _changeDetectionRef;
         this.http = http;
-        this.predictUrl = 'http://localhost/predict_result';
-        this.uploadUrl = 'http://localhost/upload_audio';
-        this.staticUrl = 'http://localhost/static';
+        this.baseUrl = 'http://localhost:8000';
+        this.predictUrl = this.baseUrl + "/predict_result";
+        this.uploadUrl = this.baseUrl + "/upload_audio";
+        this.staticUrl = this.baseUrl + "/static";
+        this.busyRequest = false;
         this.taskId = null;
         this.showLoading = false;
         this.audioName = null;
@@ -43,13 +45,17 @@ var AppComponent = (function () {
     }
     AppComponent.prototype.getPredictResult = function () {
         var _this = this;
+        if (this.busyRequest) {
+            return;
+        }
+        this.busyRequest = true;
         var params = new http_1.URLSearchParams();
         params.set('task_id', this.taskId);
         this.http.get(this.predictUrl, {
             search: params
         }).toPromise()
             .then(function (response) {
-            console.log(response);
+            _this.busyRequest = false;
             if (response.status == 200) {
                 var data = response.json()['data'];
                 _this.predictResult = data;
@@ -92,6 +98,11 @@ var AppComponent = (function () {
     AppComponent.prototype.playPauseAudio = function (event) {
         this.wavesurfer.playPause();
     };
+    AppComponent.prototype.isPlaying = function () {
+        if (this.wavesurfer == null)
+            return false;
+        return this.wavesurfer.isPlaying();
+    };
     AppComponent.prototype.loadWaveSurfer = function (audio_name, predictResult) {
         var _this = this;
         this.loadWave = true;
@@ -119,7 +130,8 @@ var AppComponent = (function () {
                     start: index,
                     end: index + 2,
                     color: color,
-                    drag: false
+                    drag: false,
+                    resize: false
                 });
                 index += 2;
             }

@@ -14,10 +14,12 @@ declare var c3: any;
     styleUrls: ['./static/app/app.style.css']
 })
 export class AppComponent implements AfterViewInit {
+    baseUrl: string = 'http://localhost:8000';
+    predictUrl: string = `${this.baseUrl}/predict_result`;
+    uploadUrl: string = `${this.baseUrl}/upload_audio`;
+    staticUrl: string = `${this.baseUrl}/static/audio_files`;
 
-    predictUrl: string = 'http://localhost/predict_result';
-    uploadUrl: string = 'http://localhost/upload_audio';
-    staticUrl: string = 'http://localhost/static/auido_files';
+    busyRequest: boolean = false;
     predictResult: any;
     taskId: string = null;
     showLoading: boolean = false;
@@ -44,13 +46,17 @@ export class AppComponent implements AfterViewInit {
     }
 
     getPredictResult() {
+        if (this.busyRequest) {
+            return ;
+        }
+        this.busyRequest = true;
         let params: URLSearchParams = new URLSearchParams();
         params.set('task_id', this.taskId);
         this.http.get(this.predictUrl, {
             search: params
         }).toPromise()
             .then(response => {
-                console.log(response);
+                this.busyRequest = false;
                 if (response.status == 200) {
                     let data = response.json()['data'];
                     this.predictResult = data;
@@ -97,6 +103,11 @@ export class AppComponent implements AfterViewInit {
         this.wavesurfer.playPause();
     }
 
+    isPlaying() {
+        if(this.wavesurfer == null)
+            return false;
+        return this.wavesurfer.isPlaying();
+    }
 
     loadWaveSurfer(audio_name: string, predictResult: any) {
         this.loadWave = true;
@@ -122,7 +133,8 @@ export class AppComponent implements AfterViewInit {
                     start: index, // time in seconds
                     end: index + 2, // time in seconds
                     color: color,
-                    drag: false
+                    drag: false,
+                    resize: false
                 });
                 index += 2;
             }
