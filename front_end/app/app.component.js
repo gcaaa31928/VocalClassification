@@ -23,7 +23,9 @@ var AppComponent = (function () {
         this.router = router;
         this._changeDetectionRef = _changeDetectionRef;
         this.http = http;
-        this.predictUrl = 'http://localhost:8000/predict_result';
+        this.predictUrl = 'http://localhost/predict_result';
+        this.uploadUrl = 'http://localhost/upload_audio';
+        this.staticUrl = 'http://localhost/static';
         this.taskId = null;
         this.showLoading = false;
         this.audioName = null;
@@ -31,7 +33,7 @@ var AppComponent = (function () {
         this.wavesurfer = null;
         this.loadWave = false;
         this.options = new ngx_uploader_1.NgUploaderOptions({
-            url: 'http://localhost:8000/upload_audio',
+            url: this.uploadUrl,
             filterExtensions: true,
             allowedExtensions: ['wav', 'mp3'],
             fieldName: 'file',
@@ -93,7 +95,7 @@ var AppComponent = (function () {
     AppComponent.prototype.loadWaveSurfer = function (audio_name, predictResult) {
         var _this = this;
         this.loadWave = true;
-        this.wavesurfer.load("http://localhost:8000/static/" + audio_name);
+        this.wavesurfer.load(this.staticUrl + "/" + audio_name);
         this.wavesurfer.clearRegions();
         this.wavesurfer.on('ready', function () {
             var index = 0;

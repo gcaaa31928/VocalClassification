@@ -15,7 +15,9 @@ declare var c3: any;
 })
 export class AppComponent implements AfterViewInit {
 
-    predictUrl: string = 'http://localhost:8000/predict_result';
+    predictUrl: string = 'http://localhost/predict_result';
+    uploadUrl: string = 'http://localhost/upload_audio';
+    staticUrl: string = 'http://localhost/static';
     predictResult: any;
     taskId: string = null;
     showLoading: boolean = false;
@@ -32,7 +34,7 @@ export class AppComponent implements AfterViewInit {
                 private _changeDetectionRef: ChangeDetectorRef,
                 private http: Http) {
         this.options = new NgUploaderOptions({
-            url: 'http://localhost:8000/upload_audio',
+            url: this.uploadUrl,
             filterExtensions: true,
             allowedExtensions: ['wav', 'mp3'],
             fieldName: 'file',
@@ -98,7 +100,7 @@ export class AppComponent implements AfterViewInit {
 
     loadWaveSurfer(audio_name: string, predictResult: any) {
         this.loadWave = true;
-        this.wavesurfer.load(`http://localhost:8000/static/${audio_name}`);
+        this.wavesurfer.load(`${this.staticUrl}/${audio_name}`);
         this.wavesurfer.clearRegions();
         this.wavesurfer.on('ready', () => {
             let index = 0;

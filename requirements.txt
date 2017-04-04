@@ -1,5 +1,6 @@
 Django==1.10.6
 celery[redis]==4.0.2
+celery
 django-celery-results
 tensorflow
 keras

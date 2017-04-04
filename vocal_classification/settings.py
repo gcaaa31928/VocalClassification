@@ -26,15 +26,15 @@ SECRET_KEY = 'p9f_wf6hkndwhm4=ax)yzi$n-&4b5fw4h4)b18t6_dfz3-jmxt'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '140.124.183.105'
+    '140.124.183.105',
+    'localhost',
+    '127.0.0.1'
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -44,10 +44,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -122,13 +120,12 @@ CELERY_RESULT_BACKEND = 'django-db'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = 'static/'
 FRONT_END_DIR = os.path.join(BASE_DIR, 'front_end')
 NODE_DIR = os.path.join(BASE_DIR, 'node_modules')
-AUDIO_DIR = os.path.join(BASE_DIR, 'audio_files')
+AUDIO_DIR = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
     FRONT_END_DIR,
-    NODE_DIR,
-    AUDIO_DIR
+    NODE_DIR
 )

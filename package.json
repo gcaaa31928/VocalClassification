@@ -8,7 +8,9 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "sass:w": "node-sass -wr front_end -o front_end/",
-    "serve": "concurrently 'npm run tsc:w' 'npm run sass:w' -n \"Typescript,Sass\" -p \"name\""
+    "sass": "node-sass -r front_end -o front_end/",
+    "serve": "concurrently 'npm run tsc:w' 'npm run sass:w' -n \"Typescript,Sass\" -p \"name\"",
+    "build": "npm run tsc | npm run sass"
   },
   "repository": {
     "type": "git",
