@@ -14,7 +14,7 @@ declare var c3: any;
     styleUrls: ['./static/app/app.style.css']
 })
 export class AppComponent implements AfterViewInit {
-    baseUrl: string = 'http://localhost:8000';
+    baseUrl: string = 'http://140.124.183.105';
     predictUrl: string = `${this.baseUrl}/predict_result`;
     uploadUrl: string = `${this.baseUrl}/upload_audio`;
     staticUrl: string = `${this.baseUrl}/static/audio_files`;
@@ -112,8 +112,8 @@ export class AppComponent implements AfterViewInit {
     loadWaveSurfer(audio_name: string, predictResult: any) {
         this.loadWave = true;
         this.wavesurfer.load(`${this.staticUrl}/${audio_name}`);
-        this.wavesurfer.clearRegions();
-        this.wavesurfer.on('ready', () => {
+	this.wavesurfer.on('ready', () => {
+	    this.wavesurfer.clearRegions();
             let index = 0;
             for(let result of predictResult) {
                 let vocal = false;
